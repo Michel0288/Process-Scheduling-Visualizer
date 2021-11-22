@@ -21,21 +21,12 @@ ANIMATION START
 @import url("https://fonts.googleapis.com/css?family=Montserrat:700");
 .hero {
   background-color: #0040C1;
+  padding: 10px;
   position: relative;
   height: 100vh;
   overflow: hidden;
   font-family: 'Montserrat', sans-serif;
-}
-
-.hero__title {
-  color: #fff;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  -webkit-transform: translate(-50%, -50%);
-          transform: translate(-50%, -50%);
-  font-size: 50px;
-  z-index: 1;
+  text-align: center;
 }
 
 .cube {
@@ -135,4 +126,13 @@ ANIMATION START
   border-radius: 20px;
   height: 25px;
   color: black;
+}
+
+
+/* Button Designs */
+.StartButton{
+  background-color: yellow;
+  padding: 5px;
+  border-radius: 10px;
+  width: 100px;
 }
