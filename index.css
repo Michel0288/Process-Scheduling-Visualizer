@@ -118,3 +118,21 @@ ANIMATION START
   }
 }
 /*# sourceMappingURL=index.css.map */
+
+
+/* Progress Bar Designs */
+.ProgressBar{
+  background-color: rgb(185, 185, 185);
+  padding: 1px;
+  margin: 10px;
+  width: 250px;
+  border-radius: 20px;
+}
+
+.Bar{
+  background-color: rgb(185, 185, 185);
+  text-align: center;
+  border-radius: 20px;
+  height: 25px;
+  color: black;
+}
