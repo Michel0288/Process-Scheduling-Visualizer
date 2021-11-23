@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
     <script src='https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js'></script>
-    <script type="text/javascript" src="shortest.js"></script>
+    <script type="text/javascript" src="FCFS.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="index.css">
@@ -42,15 +42,21 @@
             <tbody>
               <tr>
                 <th scope="row">1</th>
-                <td><input class="" type="text" /></td>
-                <td><input class="" type="text" /></td>
+                <td><input class="arrival" type="number" min="0" /></td>
+                <td><input class="burst-time" type="number" min="0" id="hello" /></td>
                 <td>val</td>
               </tr>
               <tr>
                 <th scope="row">2</th>
-                <td><input class="" type="text" /></td>
-                <td><input class="" type="text" /></td>
+                <td><input class="arrival" type="number" min="0" /></td>
+                <td><input class="burst-time" type="number" min="0"  /></td>
                 <td>val1</td>
+              </tr>
+              <tr>
+                <th scope="row">3</th>
+                <td><input class="arrival" type="number" min="0" /></td>
+                <td><input class="burst-time" type="number" min="0"  /></td>
+                <td>val2</td>
               </tr>
             </tbody>
           </table>
