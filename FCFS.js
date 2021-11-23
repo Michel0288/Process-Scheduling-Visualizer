@@ -1,64 +1,88 @@
  $(document).ready(function(){
-        // var rows = document.querySelectorAll("#table_test tr");
-        // var lastRow = rows[rows.length - 1];
-        // var lastRowNum = parseInt(lastRow.children[0].textContent);
-        // console.log(lastRowNum)
-        // var newRow = document.createElement("tr");
         var startbutton = document.getElementById("StartButton");
-        // var progressbar = document.getElementById("Bar");
-
-        // $(".add-row").click(function(){
-        //     newRow.innerHTML = "<tr><td>"+(lastRowNum+1)+"</td><td><input type='text' name='record'></td><td><input type='text' name='record'></td>";
-        //     lastRow.insertAdjacentElement("afterend", newRow);
-
-        //     // $("table tbody").append(markup);
-        // });
-
-        // // Find and remove selected table rows
-        // $(".delete-row").click(function(){
-        //     $("table tbody").find('input[name="record"]').each(function(){
-        //         if($(this).is(":checked")){
-        //             $(this).parents("tr").remove();
-        //         }
-        //     });
-        // });
-
-       // Click event for the Start Button
-        // startbutton.onclick = function(){
-        //     barmovement();
-        // };
-
-        // // This function is responsible for the movement of the progress bar.
-        // function barmovement(){
-        //         var barwidth = 0;
-        //         var interval = setInterval(progress, 80);
-                
-        //         function progress(){
-        //             if (barwidth >= 100){
-        //                 clearInterval(interval);
-        //             }
-        //             else {
-        //                 barwidth ++;
-        //                 progressbar.style.width = barwidth + "%";
-        //                 progressbar.style.backgroundColor = "rgb(70, 132, 248)"
-        //                 progressbar.innerHTML = barwidth + "%";
-        //             }
-        //         }
-        // }
+        var progressbar = document.getElementById("Bar");
+        var addbutton = document.getElementById("AddButton")
+        var queue = document.getElementById("Queue");
+        var num = 0;
+        var tablebody = document.getElementById("TableBody");
+        processes = []
+        var n = 0;
 
 
-        function go() {
-            var inputs = $(".arrival");
-            fcfs_array=[]
-            for(var i = 0; i < inputs.length; i++){
-               
-                fcfs_array.push($(inputs[i]).val())
-            }
-            console.log(fcfs_array);
-        }
-        startbutton.onclick=function(){
-            go();    
+        /* Click event for Add Button
+           This function creates a process object when the add button is clicked 
+           based on user input. It also adds that object to an array*/
+        addbutton.onclick = function(){
+            
+            var arrival = document.getElementById("Arrival").value;
+            var burst = document.getElementById("Burst").value;
+            num += 1
+            tablebody.innerHTML += "<tr id=Process "+ num +"><td>"+num+"</td><td>"+arrival+"</td><td>"+burst+"</td><td id=Status"+ num +">Waiting</td>";
+            processes.push([num, arrival, burst]);
+            MakeProcess(arrival, burst);
+           
         }
 
-    
+        // Click event for the Start Button
+        startbutton.onclick = function(){
+            evalProcesses();
+
+        };
+
+        // This function is used to create and design a Process object
+        function MakeProcess(arrival, burst){
+            n++;
+            var newprocess = document.createElement("div");
+            newprocess.style.width = 80 + "px";
+            newprocess.style.height = 80 + "px";
+            newprocess.style.borderRadius = 100 + "%";
+            newprocess.style.backgroundColor = "pink";
+            newprocess.style.padding = 20 + "px";
+            newprocess.style.margin = 10 + "px";
+            newprocess.style.fontSize = 12 + "px";
+            newprocess.style.textAlign = "center";
+            newprocess.style.display = "inline-block";
+            newprocess.innerHTML = "Process" + n;
+            newprocess.id = "Process" + n;
+            newprocess.className = "Process" + n;
+            queue.appendChild(newprocess);
+
+        }
+
+        //This function eveluates each process
+        const evalProcesses = async() => {
+
+            val=processes.sort(function(a,b) {
+                return a[1]-b[1];
+            });
+
+            for (let i = 0; i < val.length; i++) {
+
+                    topprocess = val[i][0];
+                    bursttime = val[i][2];
+                    jQuery("#Process"+topprocess).appendTo("#Moveto");
+                    await sleep(bursttime * 1000);
+                    removeprocess(topprocess);
+                    await sleep(2000); 
+
+               }
+        }
+
+        function removeprocess(process){
+
+            jQuery("#Process"+process).remove();
+            updatestate(process);
+
+        }
+
+        function updatestate(process){
+
+            jQuery("#Status"+process).html("Terminated");
+
+        }
+
+        const sleep = (milliseconds) => {
+            return new Promise(resolve => setTimeout(resolve,milliseconds));
+
+        }
     });    
