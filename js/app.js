@@ -83,8 +83,8 @@ function loading(x,numProcess){
                         width: width
                     }, 2500,)
                     .width(width);
-                
             });
+            window.scrollTo(0,document.body.scrollHeight);
         });
         x++;
     }, 2800);
