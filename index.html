@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<style>
+  .progress-bar {
+  -webkit-transition: none !important;
+  transition: none !important;
+}
+</style>
+<body>
+  <div class="hero">
+    
+    <h1>Process Scheduling Visualizer</h1> 
+
+    <div class="container">
+      <div class="btn-group">
+        <input type="radio" class="btn-check" name="options" id="option1" autocomplete="off" checked />
+        <label class="btn btn-secondary btn-sm" for="option1">Shortest Job Next (SJN)</label>
+        
+        <input type="radio" class="btn-check" name="options" id="option2" autocomplete="off" />
+        <label class="btn btn-secondary btn-sm" for="option2">Round Robin</label>
+        
+        <input type="radio" class="btn-check" name="options" id="option3" autocomplete="off" />
+        <label class="btn btn-secondary btn-sm" for="option3">Priority Scheduling</label>
+
+        <input type="radio" class="btn-check" name="options" id="option4" autocomplete="off" />
+        <label class="btn btn-secondary btn-sm" for="option4">First-Come-First-Served (FCFS)</label>
+      </div>
+    </div>
+
+    <table class="table table-bordered" id="table_test">
+      <thead>
+        <tr>
+          <th scope="col">Process</th>
+          <th scope="col">Arrival Time</th>
+          <th scope="col">Burst Time</th>
+          <th scope="col">Service Time</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="arrival_options">
+            <th class="amount" scope="row">1</th>
+            <td><input class="arrival" type="number" min="1"></td>
+            <td><input class="burst-time" type="number" min="1"></td>
+            <td>val</td>
+          </tr>
+          <tr class="arrival_options">
+            <th class="amount" scope="row">2</th>
+            <td><input class="arrival" type="number" min="1"></td>
+            <td><input class="burst-time" type="number" min="1"></td>
+            <td>val2</td>
+          </tr>
+          <tr class="arrival_options">
+            <th class="amount" scope="row">3</th>
+            <td><input class="arrival" type="number" min="1"></td>
+            <td><input class="burst-time" type="number" min="1"></td>
+            <td>val3</td>
+          </tr>
+      </tbody>
+    </table>
+
+    <div class="help">
+    </div>
+
+    <div>
+      <button type="button" id="add_more_fields">Add More</button>
+      <button type="button" id="remove_fields">Remove Field</button>
+      <button type="button" class="StartButton" id="StartButton">START</button>
+    </div>
+
+    <div class="cube"></div>
+    <div class="cube"></div>
+    <div class="cube"></div>
+    <div class="cube"></div>
+    <div class="cube"></div>
+    <div class="cube"></div>
+  </div>   
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+  <script type="text/javascript" src="js/app.js"></script>
+  <script>
+
+    var add_more_fields = document.getElementById('add_more_fields');
+    var remove_fields = document.getElementById('remove_fields');
+
+    let x = 0;
+
+    add_more_fields.onclick = function(){
+      const arrivalArea = document.querySelector("tbody");
+      var num_process = document.getElementsByClassName('amount');
+
+      if(num_process.length == 0){
+        x = 0;
+      }else{
+        x = num_process[num_process.length-1].innerHTML;
+      }
+
+      let total = Number(x) + 1;
+      var newField = `<tr class="arrival_options">
+                        <th class="amount" scope="row">`+total+`</th>
+                        <td><input class="arrival" type="number" min="1"></td>
+                        <td><input class="burst-time" type="number" min="1"></td>
+                        <td>val`+total+`</td>
+                      </tr>`;
+      arrivalArea.insertAdjacentHTML("beforeend",newField);
+    }
+
+    remove_fields.onclick = function(){
+      var input_tags = document.getElementsByClassName('arrival_options');
+      if(input_tags.length > 0) {
+        $('.arrival_options')[input_tags.length-1].remove();
+      }
+    }
+  </script>
+</body>
+</html>
