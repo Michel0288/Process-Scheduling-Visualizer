@@ -136,19 +136,46 @@ ANIMATION START
   padding: 5px;
   border-radius: 10px;
   width: 100px;
+  margin-bottom: 20px;
 }
 
-.Moveto{
-  padding: 40px;
-  width: 200px;
-  height: 200px;
-  background-color: aqua;
+.Process{
+  width: 100px;
+  height: 100px;
+  background-color: rgb(112, 200, 216);
+  border-radius: 100%;
+  margin: 10px;
+  padding: 20px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+@keyframes rotation {
+  from{
+    transform: rotate(0deg);
+  }
+
+  to{
+    transform: rotate(360deg);
+  }
+  
 }
 
 .Temp{
-  width: 50px;
-  height: 50px;
-  background-color: palevioletred;
-  border-radius: 100%;
-  margin: 0%;
+  display: grid;
+  grid-template-columns: 30% 70%;
+  gap: 10px;
+}
+
+.Queue{
+  margin: auto;
+}
+
+.Moveto{
+  /* animation: rotation 20s infinite linear; */
+  padding: 40px;
+  width: 200px;
+  height: 200px;
+  background-color: rgb(255, 102, 0);
+  margin: auto;
 }

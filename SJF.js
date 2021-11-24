@@ -29,18 +29,9 @@ $(document).ready(function(){
     function MakeProcess(arrival, burst){
         n++;
         var newprocess = document.createElement("div");
-        newprocess.style.width = 80 + "px";
-        newprocess.style.height = 80 + "px";
-        newprocess.style.borderRadius = 100 + "%";
-        newprocess.style.backgroundColor = "pink"
-        newprocess.style.padding = 20 + "px";
-        newprocess.style.margin = 10 + "px";
-        newprocess.style.fontSize = 12 + "px";
-        newprocess.style.textAlign = "center";
-        newprocess.style.display = "inline-block"
         newprocess.innerHTML = "Process" + n;
         newprocess.id = "Process" + n;
-        newprocess.className = "Process" + n;
+        newprocess.className = "Process";
         queue.appendChild(newprocess);
 
     }
