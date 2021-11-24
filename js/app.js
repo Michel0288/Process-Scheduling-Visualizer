@@ -65,6 +65,7 @@ function loading(x,numProcess){
         window.scrollTo(0,document.body.scrollHeight);
 
         if(x>=numProcess){
+            window.scrollTo(0,document.body.scrollHeight);
             $("#StartButton").show();
             $("#add_more_fields").show();
             $("#remove_fields").show();
