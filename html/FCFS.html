@@ -13,10 +13,10 @@
     <script type="text/javascript" src="/js/FCFS.js"></script>
     <title>Process Scheduling Visualizer</title>
 </head>
+
 <canvas id="canvas"> </canvas>
 
 <body>
-
     <nav class="navbar navbar-expand-lg navbar-light">
         <h1 class="navbar-brand" href="#">Process Scheduling Visualizer</h1>
         <button class="navbar-toggler"  type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
@@ -40,11 +40,14 @@
         </div>
     </nav>
 
+<div class="container">
+    
     <div id="intro">
         <h2>Process Scheduling Algorithm</h2>
         <h3>First Come First Serve</h3>
     </div>
-    <div class="table-responsive mx-auto w-auto">
+
+    <div style="width: 100%" class="table-responsive mx-auto w-auto">
         <table class="table table-bordered" id="table_test">
             <thead class="thead-dark">
                 <tr class="text-center">
@@ -67,14 +70,17 @@
             </tbody>
         </table>
     </div>
+
     <br>
-    <div id="buttondiv" class="mx-auto w-auto">
+
+    <div id="buttondiv" class=" mx-auto w-auto">
         <button type="button" class="iconbuttons" id="addfield">   
             <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
             width="46" height="50"
             viewBox="0 0 171 171"
             style=" fill:#2ECC71;"><g fill="none" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode: normal"><path d="M0,171.99654v-171.99654h171.99654v171.99654z" fill="none"></path><g fill="#3498db"><path d="M85.5,6.84c-43.37586,0 -78.66,35.28414 -78.66,78.66c0,43.37586 35.28414,78.66 78.66,78.66c43.37586,0 78.66,-35.28414 78.66,-78.66c0,-43.37586 -35.28414,-78.66 -78.66,-78.66zM109.44,88.92h-20.52v20.52c0,1.89126 -1.52874,3.42 -3.42,3.42c-1.89126,0 -3.42,-1.52874 -3.42,-3.42v-20.52h-20.52c-1.89126,0 -3.42,-1.52874 -3.42,-3.42c0,-1.89126 1.52874,-3.42 3.42,-3.42h20.52v-20.52c0,-1.89126 1.52874,-3.42 3.42,-3.42c1.89126,0 3.42,1.52874 3.42,3.42v20.52h20.52c1.89126,0 3.42,1.52874 3.42,3.42c0,1.89126 -1.52874,3.42 -3.42,3.42z"></path></g></g></svg>
         </button>
+
         <button type="button" class="iconbuttons" id="removefield">
             <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
             width="50" height="50"
@@ -86,19 +92,18 @@
         <button type="button" class="btn btn-danger" id="reset_button">Reset</button>
         <button type="button" class="btn btn-success" id="restart_button">Restart</button>
     </div>
+
     <br>
+
     <div id="resultsChart">
         <table class="DisplayAnimation">
             <tbody>
-                    <tr id="data">
-    
-                    </tr>
+                <tr id="data">
+                </tr>
             </tbody>
-    
         </table>
     </div>
 
-
+</div>
 </body>
-
 </html>

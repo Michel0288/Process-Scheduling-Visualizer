@@ -165,6 +165,7 @@ $("#addfield").click(function(){
     inputs = "<tr class='text-center'><th class='processes'>P"+(lastRowNum+1)+"</th><td ><input type='number' class='arrival-time' min='0'></td><td ><input type='number' class='burst-time' min='0'></td>";
     $("#table_test tbody").append(inputs);
 });
+
 $("#removefield").click(function(){
     numRows=$('#table_test tr');
     lastRow=$('#table_test tr:last');
@@ -204,10 +205,36 @@ const animateChart = async()=>{
     }
   
 }
+
 animation_button.onclick=function(){
-    animateChart();    
+    if(checkArrivals() && checkBurst()){
+        animateChart();  
+    }else{
+        alert("Please fill out all fields!");
+    }
 }
 
+function checkArrivals(){
+    arrivals = document.getElementsByClassName("arrival-time");
+
+    for(let i = 0; i < arrivals.length; i++){
+        if(arrivals[i].value == ""){
+            return false;
+        }
+    }
+    return true;
+}
+
+function checkBurst(){
+    bursts = document.getElementsByClassName("burst-time");
+
+    for(let i = 0; i < bursts.length; i++){
+        if(bursts[i].value == ""){
+            return false;
+        }
+    }
+    return true;
+}
 
 
 
@@ -354,8 +381,5 @@ canvas.setAttribute('width', style_width * dpi);
         requestAnimFrame(animate);
     }
     
-    
-
-   
     animate(); 
 };
