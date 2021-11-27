@@ -60,12 +60,6 @@ nav{
     margin-top: -8px;
     margin-left:8px;
 }
-
-#restart_button{
-    margin-top: -8px;
-    margin-left:8px;
-}
-
 table{
     color: white;
 }
@@ -77,7 +71,9 @@ tbody{
 .table-responsive{
     width: 40vw ;
 }
-
+@media screen and (max-width: 540px) {
+    .table-responsive{width: 100% !important;}
+}
 #resultsChart{
     width: 900px;
     margin:auto;

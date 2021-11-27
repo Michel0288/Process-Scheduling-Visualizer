@@ -176,12 +176,12 @@ $("#removefield").click(function(){
     }
 });
 
-//promise to execute animation one after the other 
+//execute animation one after the other 
 const sleep = (milliseconds) => {
     return new Promise(resolve => setTimeout(resolve,milliseconds));
 }
-
-const animateChart = async()=>{
+//get values
+function getValues(){
     var processes_rows = $(".processes");
     var burst_times = $(".burst-time");
     var arrival_times = $(".arrival-time");
@@ -191,34 +191,59 @@ const animateChart = async()=>{
         fcfs_array.push([processes_rows[i].textContent,$(arrival_times[i]).val(),$(burst_times[i]).val()])
     }
 
-    val=fcfs_array.sort(function(a,b) {
+    return fcfs_array;
+}
+//animate divs and append html to existing tag
+const animateChart = async()=>{
+    val=getValues().sort(function(a,b) {
         return a[1]-b[1];
     });
-
     AnimationSpace=$("#data");
     // AnimationSpace.append(la);
-    for (let i = 0; i < fcfs_array.length; i++) {
-        chart='<th style="display: table-cell; width:'+val[i][2]*50+'px; border: 1px solid black; border-radius: 3px; text-align:center; height: 60px; background: linear-gradient(to right, '+CSS_COLOR_NAMES[Math.floor(Math.random()*CSS_COLOR_NAMES.length)]+' 50%, transparent 0); background-size: 200% 100%; background-position: right; animation: makeItfadeIn '+val[i][2]+'s 1s forwards;">'+val[i][0]+' </th>'
+    console.log(val)
+    for (let i = 0; i < val.length; i++) {
+        chart='<th class="animation-added" style="display: table-cell; width:'+val[i][2]*50+'px; border: 1px solid black; border-radius: 3px; text-align:center; height: 60px; background: linear-gradient(to right, '+CSS_COLOR_NAMES[Math.floor(Math.random()*CSS_COLOR_NAMES.length)]+' 50%, transparent 0); background-size: 200% 100%; background-position: right; animation: makeItfadeIn '+val[i][2]+'s 1s forwards;">'+val[i][0]+' </th>'
         AnimationSpace.append(chart)
         await sleep(val[i][2]*1000)
-
     }
-  
 }
-
+//validation for inputs
 animation_button.onclick=function(){
-    if(checkArrivals() && checkBurst()){
-        animateChart();  
+    var checkAnimationExists = document.getElementsByClassName("animation-added");
+    if(checkAnimationExists.length==0){
+        if(checkArrivals() && checkBurst()){
+            animateChart();  
+        }else{
+            alert("Invalid Input!");
+        }
     }else{
-        alert("Please fill out all fields!");
+        alert("Reset Animation!");
     }
+
+    // console.log(value2.length)
+
+}
+//reset animation
+reset_button.onclick=function(){
+    arrivals = document.getElementsByClassName("arrival-time");
+    bursts = document.getElementsByClassName("burst-time");
+
+    for(let i = 0; i < arrivals.length; i++){
+        if(arrivals[i].value != "" || bursts[i].value != "" ){
+            arrivals[i].value="";
+            bursts[i].value="";
+        }
+    }
+    $("#table_test tbody tr:gt(1)").remove();
+    $(".DisplayAnimation tbody th").remove();
 }
 
+//validation checks
 function checkArrivals(){
     arrivals = document.getElementsByClassName("arrival-time");
 
     for(let i = 0; i < arrivals.length; i++){
-        if(arrivals[i].value == ""){
+        if(arrivals[i].value == "" || arrivals[i].value<0){
             return false;
         }
     }
@@ -229,15 +254,12 @@ function checkBurst(){
     bursts = document.getElementsByClassName("burst-time");
 
     for(let i = 0; i < bursts.length; i++){
-        if(bursts[i].value == ""){
+        if(bursts[i].value == "" || bursts[i].value<0){
             return false;
         }
     }
     return true;
 }
-
-
-
 // ---------------------------------------------------------------------------
 // BACKGROUND
 // ---------------------------------------------------------------------------
