@@ -200,23 +200,42 @@ window.onload = function () {
         let totalBurstTimeAfterEachProces = [];
         // Sort by arrival time
         values=getValues().sort((a,b) => a[1] - b[1]);
+
        
         let firstProcess = values.shift();
         order.push(firstProcess);
         let readyQueue = [];
         let time = firstProcess[2];
         totalBurstTimeAfterEachProces.push(time);
-
+        let countEmptySpace=0;
  
         function getReadyQueue(){
             for(let i = 0; i < values.length; i++){
                 if(values[i][1] <= time && (!readyQueue.includes(values[i]) && !order.includes(values[i])) ){
-                    console.log(values[i][1])
+                    // console.log(values[i][1])
                     readyQueue.push(values[i]);
                 }
             }
+            let count = 0;
+        //   console.log(order.length,readyQueue.length,getValues().length)
+            while (readyQueue.length<1 && order.length-countEmptySpace!=getValues().length){
+                count += 1;
+                // console.log(values[0][1])
+                if (time+count == values[countEmptySpace][1]){
+                    // console.log("lol");
+                    countEmptySpace+=1;
+                    let empty_space = ['Idle Time',0,count,0];
+                    order.push(empty_space);
+                    time+=count;
+                    totalBurstTimeAfterEachProces.push(time);
+                    readyQueue.push(values[countEmptySpace-1]);
+                    break;
+                }
+            }
+
             //Sort Ready Queue by priority
             readyQueue.sort((a,b) => a[3] - b[3]);
+            // console.log(readyQueue)
             let nextProcess = readyQueue.shift();
             order.push(nextProcess);
             time += nextProcess[2];
