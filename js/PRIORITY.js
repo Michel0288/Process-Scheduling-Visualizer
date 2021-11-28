@@ -152,7 +152,7 @@ window.onload = function () {
         "WhiteSmoke",
         "Yellow",
         "YellowGreen",
-      ];
+    ];
     // ------------------------------------------------------------------------------
     // REG SCRIPT
     // ------------------------------------------------------------------------------
@@ -162,7 +162,7 @@ window.onload = function () {
         var lastRow = rows[rows.length - 1];
         var lastRowNum = parseInt(lastRow.children[0].textContent.split("P")[1]);
         // console.log(lastRowNum);
-        inputs = "<tr class='text-center'><th class='processes'>P"+(lastRowNum+1)+"</th><td ><input type='number' class='arrival-time' min='0'></td><td ><input type='number' class='burst-time' min='0'></td>";
+        inputs = "<tr class='text-center'><th class='processes'>P"+(lastRowNum+1)+"</th><td ><input type='number' class='arrival-time' min='0'></td><td ><input type='number' class='burst-time' min='0'></td><td><input class='priority-time' type='number' min='0' /></td>";
         $("#table_test tbody").append(inputs);
     });
     
@@ -185,13 +185,14 @@ window.onload = function () {
         var processes_rows = $(".processes");
         var burst_times = $(".burst-time");
         var arrival_times = $(".arrival-time");
+        var priority_times= $(".priority-time");
         // console.log(arrival_times);
-        sjf_array=[];
+        priority_array=[];
         for(var i = 0; i < arrival_times.length; i++){
-            sjf_array.push([processes_rows[i].textContent,parseInt($(arrival_times[i]).val()),parseInt($(burst_times[i]).val())])
+            priority_array.push([processes_rows[i].textContent,parseInt($(arrival_times[i]).val()),parseInt($(burst_times[i]).val()),parseInt($(priority_times[i]).val())])
         }
     
-        return sjf_array;
+        return priority_array;
     }
     //animate divs and append html to existing tag
     const animateChart = async()=>{
@@ -215,7 +216,7 @@ window.onload = function () {
                 }
             }
             //Sort Ready Queue by priority
-            readyQueue.sort((a,b) => a[2] - b[2]);
+            readyQueue.sort((a,b) => a[3] - b[3]);
             let nextProcess = readyQueue.shift();
             order.push(nextProcess);
             time += nextProcess[2];
@@ -224,27 +225,22 @@ window.onload = function () {
         for(let x = 0; x < values.length; x++){
             getReadyQueue();
         }
-        
-        console.log(order);
-        console.log(totalBurstTimeAfterEachProces);
 
-        val=getValues().sort(function(a,b) {
-            return a[1]-b[1];
-        });
+
         AnimationSpace=$("#data");
         // AnimationSpace.append(la);
         // console.log(val)
-        for (let i = 0; i < val.length; i++) {
-            chart='<th class="animation-added" style="display: table-cell; width:'+val[i][2]*50+'px; border: 1px solid black; border-radius: 3px; text-align:center; height: 60px; background: linear-gradient(to right, '+CSS_COLOR_NAMES[Math.floor(Math.random()*CSS_COLOR_NAMES.length)]+' 50%, transparent 0); background-size: 200% 100%; background-position: right; animation: makeItfadeIn '+val[i][2]+'s 1s forwards;">'+val[i][0]+' </th>'
+        for (let i = 0; i < order.length; i++) {
+            chart='<th class="animation-added" style="display: table-cell; width:'+order[i][2]*50+'px; border: 1px solid black; border-radius: 3px; text-align:center; height: 60px; background: linear-gradient(to right, '+CSS_COLOR_NAMES[Math.floor(Math.random()*CSS_COLOR_NAMES.length)]+' 50%, transparent 0); background-size: 200% 100%; background-position: right; animation: makeItfadeIn '+order[i][2]+'s 1s forwards;">'+order[i][0]+' </th>'
             AnimationSpace.append(chart)
-            await sleep(val[i][2]*1000)
+            await sleep(order[i][2]*1000)
         }
     }
     //validation for inputs
     animation_button.onclick=function(){
         var checkAnimationExists = document.getElementsByClassName("animation-added");
         if(checkAnimationExists.length==0){
-            if(checkArrivals() && checkBurst()){
+            if(checkArrivals() && checkBurst() && checkPriority()){
                 animateChart();  
             }else{
                 alert("Invalid Input!");
@@ -260,11 +256,13 @@ window.onload = function () {
     reset_button.onclick=function(){
         arrivals = document.getElementsByClassName("arrival-time");
         bursts = document.getElementsByClassName("burst-time");
-    
+        priority = document.getElementsByClassName("priority-time");
+
         for(let i = 0; i < arrivals.length; i++){
-            if(arrivals[i].value != "" || bursts[i].value != "" ){
+            if(arrivals[i].value != "" || priority[i].value != "" || bursts[i].value != "" ){
                 arrivals[i].value="";
                 bursts[i].value="";
+                priority[i].value = "";
             }
         }
         $("#table_test tbody tr:gt(1)").remove();
@@ -277,6 +275,17 @@ window.onload = function () {
     
         for(let i = 0; i < arrivals.length; i++){
             if(arrivals[i].value == "" || arrivals[i].value<0){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    function checkPriority(){
+        priority = document.getElementsByClassName("priority-time");
+    
+        for(let i = 0; i < priority.length; i++){
+            if(priority[i].value == "" || priority[i].value<0){
                 return false;
             }
         }
@@ -437,4 +446,4 @@ window.onload = function () {
         }
         
         animate(); 
-    };
+};
