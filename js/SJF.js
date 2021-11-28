@@ -228,16 +228,13 @@ window.onload = function () {
         console.log(order);
         console.log(totalBurstTimeAfterEachProces);
 
-        val=getValues().sort(function(a,b) {
-            return a[1]-b[1];
-        });
         AnimationSpace=$("#data");
         // AnimationSpace.append(la);
         // console.log(val)
-        for (let i = 0; i < val.length; i++) {
-            chart='<th class="animation-added" style="display: table-cell; width:'+val[i][2]*50+'px; border: 1px solid black; border-radius: 3px; text-align:center; height: 60px; background: linear-gradient(to right, '+CSS_COLOR_NAMES[Math.floor(Math.random()*CSS_COLOR_NAMES.length)]+' 50%, transparent 0); background-size: 200% 100%; background-position: right; animation: makeItfadeIn '+val[i][2]+'s 1s forwards;">'+val[i][0]+' </th>'
+        for (let i = 0; i < order.length; i++) {
+            chart='<th class="animation-added" style="display: table-cell; width:'+order[i][2]*50+'px; border: 1px solid black; border-radius: 3px; text-align:center; height: 60px; background: linear-gradient(to right, '+CSS_COLOR_NAMES[Math.floor(Math.random()*CSS_COLOR_NAMES.length)]+' 50%, transparent 0); background-size: 200% 100%; background-position: right; animation: makeItfadeIn '+order[i][2]+'s 1s forwards;">'+order[i][0]+' </th>'
             AnimationSpace.append(chart)
-            await sleep(val[i][2]*1000)
+            await sleep(order[i][2]*1000)
         }
     }
     //validation for inputs
