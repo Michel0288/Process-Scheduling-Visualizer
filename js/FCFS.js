@@ -11,7 +11,6 @@ const CSS_COLOR_NAMES = [
     "Azure",
     "Beige",
     "Bisque",
-    "Black",
     "BlanchedAlmond",
     "Blue",
     "BlueViolet",
@@ -199,13 +198,91 @@ const animateChart = async()=>{
         return a[1]-b[1];
     });
     AnimationSpace=$("#data");
+    AnimationSpaceTime=$("#timeData");
     // AnimationSpace.append(la);
-    console.log(val)
+    // console.log(val)
+    completion=[];
+    first_time=parseInt(val[0][1])
+    completion.push(first_time)
+    array_test=[]
+
     for (let i = 0; i < val.length; i++) {
-        chart='<th class="animation-added" style="display: table-cell; width:'+val[i][2]*50+'px; border: 1px solid black; border-radius: 3px; text-align:center; height: 60px; background: linear-gradient(to right, '+CSS_COLOR_NAMES[Math.floor(Math.random()*CSS_COLOR_NAMES.length)]+' 50%, transparent 0); background-size: 200% 100%; background-position: right; animation: makeItfadeIn '+val[i][2]+'s 1s forwards;">'+val[i][0]+' </th>'
-        AnimationSpace.append(chart)
-        await sleep(val[i][2]*1000)
+        array_test.push(parseInt(val[i][1])+parseInt(val[i][2]))
     }
+    array_test.pop()
+    burst_list=[]
+    for (let i = 0; i < (val.length)-1; i++) {
+        if((val[i+1][1]-array_test[i])>0){
+            burst_list.push(["Idle Time",'',val[i+1][1]-array_test[i]])
+        }
+    }
+    let x=0
+    for (let i = 0; i < burst_list.length; i++) {
+        x+=1
+        val.splice(x,0,burst_list[i])
+        x+=1
+    }
+
+    // console.log(val)
+    turnaround_time=[]
+    waiting_time=[]
+    turnaround_time_vals=[]
+    waiting_time_vals=[]
+    for (let i = 0; i < val.length; i++) {
+        first_time+=parseInt(val[i][2]);
+        completion.push(first_time);
+        chart='<th class="animation-added" style="display: table-cell; color:black; width:'+((val[i][2]*50)+55)+'px; border: 1px solid black; border-radius: 3px; text-align:center; height: 60px; background: linear-gradient(to right, '+CSS_COLOR_NAMES[Math.floor(Math.random()*CSS_COLOR_NAMES.length)]+' 50%, transparent 0); background-size: 200% 100%; background-position: right; animation: makeItfadeIn '+val[i][2]+'s 1s forwards;">'+val[i][0]+' </th>'
+        AnimationSpace.append(chart)
+        charttime='<td class="animation-time" style="display: table-cell; width:'+((val[i][2]*50)+55)+'px; border-radius: 3px; text-align:left; height: 20px;">'+completion[i]+' secs</td>'
+        AnimationSpaceTime.append(charttime)
+        if(val[i][1]!=''){
+            turnaround_time_vals.push(completion[i+1]-val[i][1])
+            waiting_time_vals.push((completion[i+1]-val[i][1])-val[i][2])
+            turnaround_time.push([val[i][0],completion[i+1]-val[i][1]])
+            waiting_time.push([val[i][0],(completion[i+1]-val[i][1])-val[i][2]])
+            // console.log(completion[i+1]-val[i][1],val[i][2])
+        }
+        await sleep(val[i][2]*1000)
+        // console.log(completion[i],val[])
+    }
+
+    var avg_turnaround=turnaround_time_vals.reduce((a, b) => a + b, 0)/turnaround_time_vals.length;
+    var avg_waitingtime=waiting_time_vals.reduce((a, b) => a + b, 0)/waiting_time_vals.length
+    avgtimes=$('#resultsChart #AvgTimes');
+    wavgtimes_html='<h5 style="color:white;">Average Waiting Time: '+avg_waitingtime+' secs</h5>';
+    tavgtimes_html='<h5 style="color:white;">Turnaround Time: '+avg_turnaround+' secs</h5>';
+    avgtimes.append(wavgtimes_html)
+    avgtimes.append(tavgtimes_html)
+    
+    charttime='<td class="animation-time" style="display: table-cell; width:'+100+'px; border-radius: 3px; text-align:left; height: 20px;">'+completion[completion.length-1]+' secs</td>'
+    AnimationSpaceTime.append(charttime)
+
+
+    sortedturnaround_time=turnaround_time.sort((a, b) => a[0].localeCompare(b[0]));
+    sortedwaiting_time=waiting_time.sort((a, b) => a[0].localeCompare(b[0]));
+
+    addTurn=$('#table_test thead tr');
+    turnaroundcol="<th>Turnaround Time</th>"
+    addTurn.append(turnaroundcol)
+    addTurnVal=$('#table_test tbody tr');
+    // console.log(addTurnVal)
+    for (let i = 0; i < sortedturnaround_time.length; i++){
+        const tr = document.createElement('td');
+        tr.innerHTML=+sortedturnaround_time[i][1];
+        addTurnVal[i].append(tr)
+    }
+
+    waitingtime="<th>Waiting Time</th>"
+    addTurn.append(waitingtime)
+    addWaitVal=$('#table_test tbody tr');
+    for (let i = 0; i < sortedwaiting_time.length; i++){
+        const tr = document.createElement('td');
+        tr.innerHTML=+sortedwaiting_time[i][1];
+        addWaitVal[i].append(tr)
+    }
+    // console.log(sortedturnaround_time)
+    
+
 }
 //validation for inputs
 animation_button.onclick=function(){
@@ -236,6 +313,7 @@ reset_button.onclick=function(){
     }
     $("#table_test tbody tr:gt(1)").remove();
     $(".DisplayAnimation tbody th").remove();
+    $(".DisplayAnimation tbody td").remove();
 }
 
 //validation checks
