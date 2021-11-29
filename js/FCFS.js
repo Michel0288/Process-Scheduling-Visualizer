@@ -250,7 +250,7 @@ const animateChart = async()=>{
     var avg_waitingtime=waiting_time_vals.reduce((a, b) => a + b, 0)/waiting_time_vals.length
     avgtimes=$('#resultsChart #AvgTimes');
     wavgtimes_html='<h5 style="color:white;">Average Waiting Time: '+avg_waitingtime+' secs</h5>';
-    tavgtimes_html='<h5 style="color:white;">Turnaround Time: '+avg_turnaround+' secs</h5>';
+    tavgtimes_html='<h5 style="color:white;">Average Turnaround Time: '+avg_turnaround+' secs</h5>';
     avgtimes.append(wavgtimes_html)
     avgtimes.append(tavgtimes_html)
     
