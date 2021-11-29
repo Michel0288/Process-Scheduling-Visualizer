@@ -207,30 +207,37 @@ window.onload = function () {
         totalBurstTimeAfterEachProces.push(time);
 
         let countEmptySpace=0;
+        let index = 0;
+ 
         function getReadyQueue(){
             for(let i = 0; i < values.length; i++){
                 if(values[i][1] <= time && (!readyQueue.includes(values[i]) && !order.includes(values[i])) ){
-                    console.log(values[i][1])
+                    // console.log(values[i][1])
                     readyQueue.push(values[i]);
                 }
             }
             let count = 0;
+        //   console.log(order.length,readyQueue.length,getValues().length)
             while (readyQueue.length<1 && order.length-countEmptySpace!=getValues().length){
                 count += 1;
                 // console.log(values[0][1])
-                if (time+count == values[countEmptySpace][1]){
+                if (time+count == values[index][1]){
                     // console.log("lol");
                     countEmptySpace+=1;
                     let empty_space = ['Idle Time',0,count,0];
                     order.push(empty_space);
                     time+=count;
                     totalBurstTimeAfterEachProces.push(time);
-                    readyQueue.push(values[countEmptySpace-1]);
+                    readyQueue.push(values[index]);
                     break;
                 }
             }
+
+            index++;
+
             //Sort Ready Queue by priority
-            readyQueue.sort((a,b) => a[2] - b[2]);
+            readyQueue.sort((a,b) => a[3] - b[3]);
+            // console.log(readyQueue)
             let nextProcess = readyQueue.shift();
             order.push(nextProcess);
             time += nextProcess[2];
