@@ -304,7 +304,7 @@ window.onload = function () {
         addWaitVal=$('#table_test tbody tr');
         for (let i = 0; i < sortedwaiting_time.length; i++){
             const tr = document.createElement('td');
-            tr.innerHTML=+sortedwaiting_time[i][1];
+            tr.innerHTML=+parseInt(sortedwaiting_time[i][1]);
             addWaitVal[i].append(tr)
         }
 
@@ -331,16 +331,27 @@ window.onload = function () {
         arrivals = document.getElementsByClassName("arrival-time");
         bursts = document.getElementsByClassName("burst-time");
         priority = document.getElementsByClassName("priority-time");
-
         for(let i = 0; i < arrivals.length; i++){
-            if(arrivals[i].value != "" || priority[i].value != "" || bursts[i].value != "" ){
+            if(arrivals[i].value != "" || bursts[i].value != "" ){
                 arrivals[i].value="";
                 bursts[i].value="";
-                priority[i].value = "";
+                priority[i].value="";
             }
         }
         $("#table_test tbody tr:gt(1)").remove();
         $(".DisplayAnimation tbody th").remove();
+        $(".DisplayAnimation tbody td").remove();
+        $('#table_test thead tr th:gt(3)').remove();
+        // $('#table_test tbody tr td:nth-last-child(1)').remove()
+        if  ($('#table_test tbody tr td').length==6){
+            console.log("Must be >6");
+        }else{
+            $('#table_test tbody tr td:nth-last-child(1)').remove()
+            $('#table_test tbody tr td:nth-last-child(1)').remove()
+        }
+        $('#resultsChart #AvgTimes h5').remove();
+        // $('#table_test tbody tr td:nth-last-child(2)').remove()
+        // $('#table_test tbody tr').deleteCell(-2);
     }
     
     //validation checks

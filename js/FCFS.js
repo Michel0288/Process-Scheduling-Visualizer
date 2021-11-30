@@ -314,6 +314,17 @@ reset_button.onclick=function(){
     $("#table_test tbody tr:gt(1)").remove();
     $(".DisplayAnimation tbody th").remove();
     $(".DisplayAnimation tbody td").remove();
+    $('#table_test thead tr th:gt(2)').remove();
+    // $('#table_test tbody tr td:nth-last-child(1)').remove()
+    if  ($('#table_test tbody tr td').length==4){
+        console.log("Must be >4");
+    }else{
+        $('#table_test tbody tr td:nth-last-child(1)').remove()
+        $('#table_test tbody tr td:nth-last-child(1)').remove()
+    }
+    $('#resultsChart #AvgTimes h5').remove();
+    // $('#table_test tbody tr td:nth-last-child(2)').remove()
+    // $('#table_test tbody tr').deleteCell(-2);
 }
 
 //validation checks
