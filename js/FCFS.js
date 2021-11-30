@@ -289,6 +289,7 @@ animation_button.onclick=function(){
     var checkAnimationExists = document.getElementsByClassName("animation-added");
     if(checkAnimationExists.length==0){
         if(checkArrivals() && checkBurst()){
+            $("#Gnattchart").show();
             animateChart();  
         }else{
             alert("Invalid Input!");
@@ -302,6 +303,7 @@ animation_button.onclick=function(){
 }
 //reset animation
 reset_button.onclick=function(){
+    $("#Gnattchart").hide();
     arrivals = document.getElementsByClassName("arrival-time");
     bursts = document.getElementsByClassName("burst-time");
 

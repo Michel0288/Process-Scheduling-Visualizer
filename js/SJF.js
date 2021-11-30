@@ -217,7 +217,7 @@ window.onload = function () {
                 }
             }
             let count = 0;
-        //   console.log(order.length,readyQueue.length,getValues().length)
+        //  console.log(order.length,readyQueue.length,getValues().length)
             while (readyQueue.length<1 && order.length-countEmptySpace!=getValues().length){
                 count += 1;
                 // console.log(values[0][1])
@@ -254,7 +254,6 @@ window.onload = function () {
         console.log(totalBurstTimeAfterEachProces);
         AnimationSpaceTime=$("#timeData");
         AnimationSpace=$("#data");
-        // AnimationSpace.append(la);
         // console.log(val)
         for (let i = 0; i < order.length; i++) {
             chart='<th class="animation-added" style="display: table-cell; color:black; width:'+((order[i][2]*50)+55)+'px; border: 1px solid black; border-radius: 3px; text-align:center; height: 60px; background: linear-gradient(to right, '+CSS_COLOR_NAMES[Math.floor(Math.random()*CSS_COLOR_NAMES.length)]+' 50%, transparent 0); background-size: 200% 100%; background-position: right; animation: makeItfadeIn '+order[i][2]+'s 1s forwards;">'+order[i][0]+' </th>'
@@ -317,6 +316,7 @@ window.onload = function () {
         var checkAnimationExists = document.getElementsByClassName("animation-added");
         if(checkAnimationExists.length==0){
             if(checkArrivals() && checkBurst()){
+                $("#Gnattchart").show();
                 animateChart();  
             }else{
                 alert("Invalid Input!");
@@ -330,6 +330,7 @@ window.onload = function () {
     }
     //reset animation
     reset_button.onclick=function(){
+        $("#Gnattchart").hide();
         arrivals = document.getElementsByClassName("arrival-time");
         bursts = document.getElementsByClassName("burst-time");
     
