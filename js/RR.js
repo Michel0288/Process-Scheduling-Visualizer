@@ -220,16 +220,19 @@ window.onload = function () {
         // Sort by arrival time
         values=getValues().sort((a,b) => a[1] - b[1]);
 
-        let firstProcess = values[0]
-  
-        order.push(deepCopy(firstProcess));
+        let firstProcess = values[0];
 
         let readyQueue = [];
         let ftime=firstProcess[1];
         let time = ftime;
         totalBurstTimeAfterEachProces.push(ftime);
 
-        let quantum = 3;
+        let quantum = document.getElementById("quantum");
+        quantum = Number(quantum.value);
+        if(quantum < 1){
+            quantum = 3;
+        }
+        console.log("quantum: ",quantum);
         let check = true;
         let index = 0;
 
@@ -246,6 +249,11 @@ window.onload = function () {
             firstProcess[2] = 0;
         }
 
+        let pushData =  deepCopy(firstProcess);
+        pushData[1] = time;
+
+        order.push(deepCopy(pushData));
+
         totalBurstTimeAfterEachProces.push(time);
   
         for(let i = 0; i < values.length; i++){
@@ -259,7 +267,24 @@ window.onload = function () {
         }
  
         function getReadyQueue(){
-            console.log(readyQueue);
+            //console.log(readyQueue);
+
+            let count = 0;
+            let bruk = false;
+            // while(readyQueue.length<1 && !isComplete()){
+            //   count++;
+            //   for(let i = 0; i < values.length; i++){
+            //     if(values[i][2] != 0 && time+count == process[1]){
+            //         let empty_space = ['Idle Time','',count,0];
+            //         order.push(empty_space);
+            //         readyQueue.push(process[i]);
+            //         bruk = true;
+            //     }
+            //   }
+            //   if(bruk){
+            //     break;
+            //   }
+            // }
             
             index = values.indexOf(readyQueue[0]);
           
@@ -281,11 +306,15 @@ window.onload = function () {
             }
             
             firstProcess = readyQueue.shift();
+            let pushData =  deepCopy(firstProcess);
+            pushData[1] = time;
+            console.log("Data: ",pushData);
             //console.log("First Process: ",firstProcess)
+            console.log(totalBurstTimeAfterEachProces);
             if(firstProcess[2] > 0){
               readyQueue.push(firstProcess);
             }
-            order.push(deepCopy(firstProcess));
+            order.push(pushData);
             index = values.indexOf(readyQueue[0]);
         }
 
@@ -312,11 +341,19 @@ window.onload = function () {
         turnaround_time_vals=[]
         waiting_time_vals=[]
         // console.log(order);
-        console.log(totalBurstTimeAfterEachProces);
+        // console.log(totalBurstTimeAfterEachProces);
         AnimationSpaceTime=$("#timeData");
         AnimationSpace=$("#data");
         // AnimationSpace.append(la);
         // console.log(val)
+
+        for(let x = 0; x < order.length; x++){
+            order[x][2] = totalBurstTimeAfterEachProces[x+1] - totalBurstTimeAfterEachProces[x];
+        }
+
+
+        console.log("order: ",order);
+
         for (let i = 0; i < order.length; i++) {
             chart='<th class="animation-added" style="display: table-cell; color:black; width:'+((order[i][2]*50)+55)+'px; border: 1px solid black; border-radius: 3px; text-align:center; height: 60px; background: linear-gradient(to right, '+CSS_COLOR_NAMES[Math.floor(Math.random()*CSS_COLOR_NAMES.length)]+' 50%, transparent 0); background-size: 200% 100%; background-position: right; animation: makeItfadeIn '+order[i][2]+'s 1s forwards;">'+order[i][0]+' </th>'
             AnimationSpace.append(chart)
@@ -327,7 +364,7 @@ window.onload = function () {
                 waiting_time_vals.push((totalBurstTimeAfterEachProces[i+1]-order[i][1])-order[i][2])
                 turnaround_time.push([order[i][0],totalBurstTimeAfterEachProces[i+1]-order[i][1]])
                 waiting_time.push([order[i][0],(totalBurstTimeAfterEachProces[i+1]-order[i][1])-order[i][2]])
-                console.log(totalBurstTimeAfterEachProces[i+1]-order[i][1],totalBurstTimeAfterEachProces[i],order[i][2])
+                //console.log(totalBurstTimeAfterEachProces[i+1]-order[i][1],totalBurstTimeAfterEachProces[i],order[i][2])
             }
             await sleep(order[i][2]*1000)
         }
@@ -365,6 +402,7 @@ window.onload = function () {
         waitingtime="<th>Waiting Time</th>"
         addTurn.append(waitingtime)
         addWaitVal=$('#table_test tbody tr');
+        console.log("sortedwaiting_time: ",sortedwaiting_time);
         for (let i = 0; i < sortedwaiting_time.length; i++){
             const tr = document.createElement('td');
             tr.innerHTML=+sortedwaiting_time[i][1];

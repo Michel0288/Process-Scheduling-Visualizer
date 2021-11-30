@@ -78,46 +78,62 @@ if(check){
   readyQueue.push(process[0]);
 }
 
-function getReadyQueue(){
-//console.log(readyQueue);
-
-index = process.indexOf(readyQueue[0]);
-
-if(process[index][1] >= quantum){
-  process[index][1] = process[index][1] - quantum;
-  time += quantum;
-  
-}else{
-  time += process[index][1];
-  process[index][1] = 0;
-}
-
-totalBurstTimeAfterEachProces.push(time);
-
-for(let i = 0; i < process.length; i++){
-    if(process[i] != process[index] && process[i][1] != 0 && process[i][0] <= time && (!readyQueue.includes(process[i]) && !order.includes(process[i])) ){
-        readyQueue.push(process[i]);
-    }
-}
-
-firstProcess = readyQueue.shift();
-//console.log("First Process: ",firstProcess)
-if(firstProcess[1] > 0){
-  readyQueue.push(firstProcess);
-}
-order.push(deepCopy(firstProcess));
-index = process.indexOf(readyQueue[0]);
-}
-
 function isComplete(){
-let complete = true;
-for(let i = 0; i < process.length; i++){
-    if(process[i][1] > 0){
-        complete = false;
-        break;
-    }
+  let complete = true;
+  for(let i = 0; i < process.length; i++){
+      if(process[i][1] > 0){
+          complete = false;
+          break;
+      }
+  }
+  return complete;
 }
-return complete;
+
+function getReadyQueue(){
+  //console.log(readyQueue);
+  let count = 0;
+  let bruk = false;
+  while(readyQueue.length<1 && !isComplete()){
+    count++;
+    for(let i = 0; i < process.length; i++){
+      if(process[i][1] != 0 && time+count == process[0]){
+          let empty_space = ['Idle Time','',count,0];
+          order.push(empty_space);
+          readyQueue.push(process[i]);
+          bruk = true;
+      }
+    }
+    if(bruk){
+      break;
+    }
+  }
+
+  index = process.indexOf(readyQueue[0]);
+
+  if(process[index][1] >= quantum){
+    process[index][1] = process[index][1] - quantum;
+    time += quantum;
+    
+  }else{
+    time += process[index][1];
+    process[index][1] = 0;
+  }
+
+  totalBurstTimeAfterEachProces.push(time);
+
+  for(let i = 0; i < process.length; i++){
+      if(process[i] != process[index] && process[i][1] != 0 && process[i][0] <= time && (!readyQueue.includes(process[i]) && !order.includes(process[i])) ){
+          readyQueue.push(process[i]);
+      }
+  }
+
+  firstProcess = readyQueue.shift();
+  //console.log("First Process: ",firstProcess)
+  if(firstProcess[1] > 0){
+    readyQueue.push(firstProcess);
+  }
+  order.push(deepCopy(firstProcess));
+  index = process.indexOf(readyQueue[0]);
 }
 
 complete = isComplete();
