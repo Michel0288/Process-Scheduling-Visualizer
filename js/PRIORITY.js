@@ -205,7 +205,7 @@ window.onload = function () {
         order.push(firstProcess);
         let readyQueue = [];
         let ftime=firstProcess[1];
-        let time = firstProcess[2];
+        let time = ftime+firstProcess[2];
         totalBurstTimeAfterEachProces.push(ftime);
         totalBurstTimeAfterEachProces.push(time);
         let countEmptySpace=0;
